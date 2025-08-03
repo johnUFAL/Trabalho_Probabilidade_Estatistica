@@ -1,0 +1,53 @@
+Sobre as variaveis
+
+Status_conta – Status da conta corrente
+
+Meses_existencia – Duração do crédito em meses.
+
+Historico_credito – Histórico de crédito.
+Nenhum crédito anterior, todos créditos pagos, pagamentos atrasados.
+
+Proposito – Motivo do crédito.
+Carro novo, carro usado, eletrodomésticos, reparos, outros.
+
+Valor_credito – Valor do crédito solicitado).
+
+Saldo_poupanca – Saldo de poupança.
+< 100 DM, 100–500 DM, > 1000 DM, sem poupança.
+
+Tempo_emprego – Tempo de emprego atual.
+Desempregado, <1 ano, 1–4 anos, 4–7 anos, >7 anos.
+
+Taxa_parcela_renda – Taxa da parcela do crédito em relação à renda (%).
+
+Status_pessoal_sexo – Estado civil e sexo).
+Homem solteiro, homem casado, mulher solteira, etc.
+
+Fiador – Existência de fiador ou garantias.
+Nenhum, coobrigado, fiador.
+
+Residencia_atual – Tempo de residência atual.
+
+Bens – Tipo de bens/garantias.
+Imóvel, seguro de vida, carro, nenhum.
+
+Idade – Idade do cliente.
+
+Habitacao – Situação da habitação.
+Aluguel, própria, gratuita.
+
+Credito_existente – Quantidade de créditos existentes.
+
+Emprego – Tipo de emprego ou função.
+Desempregado, empregado não qualificado, qualificado.
+
+Dependentes – Número de dependentes.
+
+Telefone – Possui telefone?.
+Não, Sim.
+
+Trabalhador_estrangeiro – É trabalhador estrangeiro?.
+Sim, Não.
+
+Classe – Qualidade do crédito:
+1 = Bom, 2 = Ruim.
