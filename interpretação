@@ -1,0 +1,18 @@
+Interpretação segunda questão
+Coluna: Valor_Credito
+
+Dados - Abaixo estão os dados extraídos
+
+Valor máximo e mínimo: 250 18424
+Média: 3271.258
+Mediana: 2319.5
+Desvio Padrão: 28822.737
+Quartis: 1365.5 2319.5 3972.25
+
+A media é maior que a mediana, ou seja, há uma concentração em valores mais baixos
+O DP é elevado o que pode indicar uma disperção grande nos dados
+Histograma: valores concentrados na esquerda e uam cauda alongada para direita, uma frequência máxima em intervalos menores o cabe com a mediana e com valores acima de 10000 bem raros
+Boxplot: Temos outliers bem visíveis, com pontos acima de 10000 DM e cerca de 75% dos dados estão abaico de 3972.25 DM
+
+-> A maioria dos crédicos é pequena com pouco valores altos
+-> Alguns fatores: imprevistos, renda limitada, sem reservas de dinheiro...

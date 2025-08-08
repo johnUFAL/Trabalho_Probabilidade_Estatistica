@@ -26,3 +26,23 @@ boxplot(df$Residencia_atual, main =  "Outliers em Residencia_atual")
 boxplot(df$Idade, main =  "Outliers em Idade")
 boxplot(df$Credito_existente, main =  "Outliers em Credito_existente")
 boxplot(df$Dependes, main =  "Outliers em Dependes")
+
+
+# Usando valor crédito: valor min, valor max, média, mediana. desvio padrão, os quartis, histograma, boxplot e interpretação
+min(df$Valor_credito)
+max(df$Valor_credito)
+mean(df$Valor_credito)
+median(df$Valor_credito)
+sd(df$Valor_credito)
+quantile(df$Valor_credito, probs = c(0.25, 0.50, 0.75))
+par(mar = c(4, 4, 2, 1))
+hist(df$Valor_credito,
+     breaks = 30,
+     main = "Dsitribuição de Frequência",
+     xlab = "Valor Crédito (DM)", 
+     col = "lightblue")
+boxplot(df$Valor_credito, 
+        ylin = c(0, 20000),
+        main = "Distribuição Valor Crédito",
+        ylab = "Valores (DM)", 
+        col = "lightgreen")
