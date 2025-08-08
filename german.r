@@ -6,7 +6,7 @@ df <- read.table("german.data", header = FALSE, sep = " ")
 colnames(df) <- c(  "Status_conta", "Meses_existencia", "Historico_credito", "Proposito",
                     "Valor_credito", "Saldo_poupanca", "Tempo_emprego", "Taxa_parcela_renda",
                     "Status_pessoal_sexo", "Fiador", "Residencia_atual", "Bens",
-                    "Idade", "Habitacao", "Credito_existente", "Emprego", "Dependentes",
+                    "Idade", "Planos de parcelamento", "Moradia", "Credito_existente", "Emprego", "Dependentes",
                     "Telefone", "Trabalhador_estrangeiro", "Classe")
 
 # Analise bruta
