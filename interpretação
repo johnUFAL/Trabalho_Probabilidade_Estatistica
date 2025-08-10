@@ -16,3 +16,12 @@ Boxplot: Temos outliers bem visíveis, com pontos acima de 10000 DM e cerca de 7
 
 -> A maioria dos crédicos é pequena com pouco valores altos
 -> Alguns fatores: imprevistos, renda limitada, sem reservas de dinheiro...
+
+Interpretação terceira questão
+A combinação mais frequente é A61 com A73 (<100 DM e 1~4 anos de emprego)
+A combinação menos frequente é A64 com A71 (>= 1000 DM e desempregado)
+Tem-se evidêcinas de associação entre saldo em poupança e tempo de emprego já que no teste de Qui-quadrado o p-valor deu 5%
+As pessoas que tem menos saldo estao mais distribuídas entre os tempos de emprego
+AS pessoas que tem DM >= 1000 estão amior associadas com o tempo de emprego maior (algo que eu estava buscando)
+Grande parte dos desempregados tem saldo < 100 DM (algo relativamento lógico)
+Dados que são desconhecidos estão em tempo de emprego mais longos (talvez seja uma forma de segurança?)
