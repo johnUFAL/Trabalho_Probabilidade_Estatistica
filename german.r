@@ -3,8 +3,7 @@
 rm(list = ls()) # Limpeza
 dev.off() # Erros gráficos
 
-
-# imporntando, lende e preparando o dataframe
+# imporntando, lendO e preparando o dataframe
 setwd("C:/Users/Joao Duarte/Desktop/Trabalho R/Trabalho_Probabilidade_Estatistica")
 
 df <- read.table("german.data", header = FALSE, sep = " ")
@@ -20,6 +19,7 @@ colnames(df) <- c(
 # Carregando pacotes
 library(ggplot2)
 library(corrplot)
+library(hexbin)
 
 # Comfiguração gráfica
 par(mar = c(4, 4, 2, 1))
@@ -134,3 +134,41 @@ ggplot(df, aes(x = Meses_existencia, y = Residencia_atual)) +
 
 modelo <- lm(Residencia_atual ~ Meses_existencia, data = df)
 summary(modelo) # Regressão linear
+
+# Correlação entre Meses_existencia x Valor_credito
+ggplot(df, aes(x=Meses_existencia, y=Valor_credito)) +
+  geom_hex(bins=30) +
+  geom_smooth(method="lm", color="red") +
+  scale_fill_gradient(low="lightblue", high="darkblue") +
+  labs(title="Relação entre Tempo de Histórico e Valorvde Crédito",
+       x="Meses de Existencia",
+       y="Valor do credito")
+
+# Gráfico de barra sobre Saldo em poupança x tempo de emprego
+rotulo_temp <- c(
+  "A71" = "A71 - desempregado",
+  "A72" = "A72 - < 1 ano",
+  "A73" = "A73 - 1 ≤ anos < 4",
+  "A74" = "A74 - 4 ≤ anos < 7",
+  "A75" = "A75 - ≥ 7 anos"
+)
+
+ggplot(as.data.frame(tbCont), aes(x=Var1, y=Freq, fill=Var2)) +
+  geom_bar(stat="identity", position="dodge") +
+  scale_fill_discrete(
+    name = "Tempo emprego",
+    labels = rotulo_temp) +
+  labs(title="Saldo na conta por Tempo empregado",
+      x="Saldo (DM)",
+      y="Frequencia") +
+  theme_minimal()
+
+# Boxplot faixa etária x valor do crédito
+df$Faixa_etaria <- cut(df$Idade, breaks=c(20,30,40,50,60,70))
+
+ggplot(df, aes(x=Faixa_etaria, y=Valor_credito)) +
+  geom_boxplot(fill="lightyellow") +
+  stat_summary(fun=mean, geom="point", color="orange", size=3) +
+  labs(title="Distribuição do valor crédito por Faixa de idade",
+       x="Faixa etária",
+       y="Valor do crédito (DM)")

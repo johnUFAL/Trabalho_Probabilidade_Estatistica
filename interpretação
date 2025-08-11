@@ -48,6 +48,17 @@ Pra cada mês a mais o tempo aumenta 0.0003
 com p-valor > 0.05, mostra que é significativo 
 Então, tanto a regressão quanto a correlação mostra uma associação fraca
 
+Sétima questão:
+1ª pergunta) Será que com mais tempo de existência, maior será o crédito recebido?
+2ª pergunta) Pessoas que tem um tempo elevado de emprego possuem um saldo na poupança mais alto?
+3ª pergunta) A faixe etária influencia o valor do crédito concedido?
 
+1) O gráfico mostrou uma concentração de valores altos para o histórico mais longo
+Então, confirmamos que há relação de valor e tempo, ou seja os institutos tedem a dar mais crédito para pessoas com histórico mais longo
 
+2) A combinação mais frequente foi a A61 com A73 e uma bem rara foi A64 com A71
+Tem-se uma associação significativa, com um padrão de maior saldo com tempo maior de trabalho
+Já os desempregados com um saldo alto pode ser algo como aposentados
 
+3) Como não há valores faltantes, no boxplot o NA em Idade sugere idades maiores que 70 anos
+Nota-se que em tados as faixas de diade a média supera a mediana, isso pode indicar que, mesmo a maioria recendo valores próximos à mediana, alguns emprestimos altos sobem a média
