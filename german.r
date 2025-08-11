@@ -69,3 +69,22 @@ ggplot(as.data.frame(tbCont),
        fill = "Tempo Emprego", 
        title = "Relação Saldo Poupança x Tempo Emprego") +
   theme_minimal()
+
+library(ggplot2)
+
+# Analise em boxplot das variáveis Idade e saldo_poupanca
+df$Saldo_poupanca <- factor(df$Saldo_poupanca, 
+                            levels = c("A61", "A62", "A63", "A64", "A65"),
+                            labels = c("<100 DM", "100-500 DM", "500-1000 DM", "≥1000 DM", "Desconhecido"))
+
+ggplot(df, aes(x = Saldo_poupanca, y = Idade, fill = Saldo_poupanca)) +
+  geom_boxplot() + labs(title = "Idade por Saldo em poupança",
+                        x = "Saldo em Poupança",
+                        y = "Idade (anos",
+                        fill = "Saldo") +
+  scale_fill_brewer(palette = "Pastel1") +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1))
+            
+                            
