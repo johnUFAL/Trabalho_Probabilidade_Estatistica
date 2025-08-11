@@ -121,3 +121,16 @@ corrplot(mat,
          mar = c(0, 0 , 2, 0),
          title = "Matriz de Correlação",
          cl.ratio  = 0.2)
+
+# Analise bivariada:  "Meses_existencia" e "Residencia_atual" disperssão com linha de tendência
+ggplot(df, aes(x = Meses_existencia, y = Residencia_atual)) +
+  geom_point(alpha = 0.6, color = "blue") +  #scatterplot
+  geom_smooth(method = "lm", se = TRUE, color = "red", fill = "pink") +  #regressão
+  labs(title = "Relação entre Meses de Existência e Tempo na Residência Atual",
+       x = "Meses de Existência",
+       y = "Tempo na Residência Atual (mês)",
+       caption = paste("Correlação =", round(cor(df$Meses_existencia, df$Residencia_atual), 2))) +
+  theme_minimal()
+
+modelo <- lm(Residencia_atual ~ Meses_existencia, data = df)
+summary(modelo) # Regressão linear

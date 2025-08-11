@@ -3,7 +3,8 @@ Coluna: Valor_Credito
 
 Dados - Abaixo estão os dados extraídos
 
-Valor máximo e mínimo: 250 18424
+Interpretação segunda questão:
+Valor máximo e mínimo: 250 e 18424
 Média: 3271.258
 Mediana: 2319.5
 Desvio Padrão: 28822.737
@@ -13,11 +14,10 @@ A media é maior que a mediana, ou seja, há uma concentração em valores mais 
 O DP é elevado o que pode indicar uma disperção grande nos dados
 Histograma: valores concentrados na esquerda e uam cauda alongada para direita, uma frequência máxima em intervalos menores o cabe com a mediana e com valores acima de 10000 bem raros
 Boxplot: Temos outliers bem visíveis, com pontos acima de 10000 DM e cerca de 75% dos dados estão abaico de 3972.25 DM
-
 -> A maioria dos crédicos é pequena com pouco valores altos
 -> Alguns fatores: imprevistos, renda limitada, sem reservas de dinheiro...
 
-Interpretação terceira questão
+Interpretação terceira questão:
 A combinação mais frequente é A61 com A73 (<100 DM e 1~4 anos de emprego)
 A combinação menos frequente é A64 com A71 (>= 1000 DM e desempregado)
 Tem-se evidêcinas de associação entre saldo em poupança e tempo de emprego já que no teste de Qui-quadrado o p-valor deu 5%
@@ -26,19 +26,27 @@ AS pessoas que tem DM >= 1000 estão amior associadas com o tempo de emprego mai
 Grande parte dos desempregados tem saldo < 100 DM (algo relativamento lógico)
 Dados que são desconhecidos estão em tempo de emprego mais longos (talvez seja uma forma de segurança?)
 
-
-Interpretação quarta quesão
+Interpretação quarta quesão:
 De acordo com o gráfico os dados representam um acumulo econômico ao longo dos anos o que já era esperado
 Pessoas mais jovens tem menos dinheiro guardado e pessoas mais velhas tem mais
 Como a distribição esta parecida com  a faixa média isso pode indicar casos médios não declarados
 
-Interpretação quinta questão
+Interpretação quinta questão:
 Algumas correlações fortes poderam ser vistas, como:
 Meses_existencia x Valor_credito
 Meses_ecistencia x Residencia_atual
 Vale destacar também uma correlacão moderada entre Meses_existencia e Taxa_parcela_renda
 Nota-se que Meses_existencia é a variável que mais correlaciona com outras e Dependentes não mostrou uma correlação boa com nenhuma variável
 
+Interpretação sexta questão:
+Há uma correlacão bem baixa, nenhuma relação linear entre elas
+Os pontos estão bem dispersos sem uma formação de padrão bem visivél
+a linha de tendência está quase deitada com o eixo x, sem relações 
+sobre a regressão linear:
+Quando Meses_existencia = 0, tempo na residência é 2.78
+Pra cada mês a mais o tempo aumenta 0.0003 
+com p-valor > 0.05, mostra que é significativo 
+Então, tanto a regressão quanto a correlação mostra uma associação fraca
 
 
 
