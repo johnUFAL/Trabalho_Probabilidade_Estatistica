@@ -3,10 +3,16 @@
 rm(list = ls()) # Limpeza
 dev.off() # Erros gráficos
 
+# Carregando pacotes
+library(ggplot2)
+library(corrplot)
+library(hexbin)
+library(readxl)
+
 # imporntando, lendO e preparando o dataframe
 setwd("C:/Users/Joao Duarte/Desktop/Trabalho R/Trabalho_Probabilidade_Estatistica")
 
-df <- read.table("german.data", header = FALSE, sep = " ")
+df <- read_excel("german.xlsx", col_names = FALSE)
 
 colnames(df) <- c(
   "Status_conta", "Meses_existencia", "Historico_credito", "Proposito",
@@ -16,10 +22,15 @@ colnames(df) <- c(
   "Emprego", "Dependentes", "Telefone", "Trabalhador_estrangeiro", "Classe"
 )
 
-# Carregando pacotes
-library(ggplot2)
-library(corrplot)
-library(hexbin)
+# Convertentdo valores para numericos
+df$Meses_existencia <- as.numeric(df$Meses_existencia)
+df$Valor_credito <- as.numeric(df$Valor_credito)
+df$Taxa_parcela_renda <- as.numeric(df$Taxa_parcela_renda)
+df$Residencia_atual <- as.numeric(df$Residencia_atual)
+df$Idade <- as.numeric(df$Idade)
+df$Credito_existente <- as.numeric(df$Credito_existente)
+df$Dependentes <- as.numeric(df$Dependentes)
+
 
 # Comfiguração gráfica
 par(mar = c(4, 4, 2, 1))
@@ -172,3 +183,4 @@ ggplot(df, aes(x=Faixa_etaria, y=Valor_credito)) +
   labs(title="Distribuição do valor crédito por Faixa de idade",
        x="Faixa etária",
        y="Valor do crédito (DM)")
+
