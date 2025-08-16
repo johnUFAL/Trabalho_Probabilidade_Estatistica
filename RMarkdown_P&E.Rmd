@@ -1,13 +1,24 @@
-# *Atividade 1 – Probabilidade e Estatistica*  
-  
-## 1. Análise Exploratória de Dados  
-  
-### 1.1 Sobre o banco  
+---
+output: 
+  html_document:
+    theme: flatly
+    highlight: tango
+    toc: true
+    toc_float: true
+    code_folding: show
+---
 
-A base de dados utilizada contém informações de clientes e se eles pagaram ou não empréstimos, usado para análise de risco de crédito. Num dataframe de  1000 x 21 com todas essas informações. Será apresentado logo abaixo as 10 primeiras linhas do dataframe usado.  
-  
-<!-- criando uma chunk -->  
-```{R, echo=FALSE, message=FALSE, warning=FALSE} 
+# *Atividade 1 – Probabilidade e Estatistica*
+
+## 1. Análise Exploratória do German Credit Data
+
+### 1.1 Sobre o banco
+
+A base de dados utilizada contém informações de clientes e se eles pagaram ou não empréstimos, usado para análise de risco de crédito. Num dataframe de 1000 x 21 com todas essas informações. Será apresentado logo abaixo as 10 primeiras linhas do dataframe usado.
+
+<!-- criando uma chunk -->
+
+```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Carregando os pacotes
 library(ggplot2)
 library(corrplot)
@@ -15,12 +26,11 @@ library(hexbin)
 library(readxl)
 library(knitr)
 
-# importando, lendo e preparando o dataframe
-setwd("C:\\Users\\guilh\\Downloads\\Trabalho_Probabilidade_Estatistica-main\\Trabalho_Probabilidade_Estatistica-main")
+# Careegando dados
+setwd("C:/Users/Joao Duarte/Desktop/Trabalho R/Trabalho_Probabilidade_Estatistica")
 
 df <- read_excel("german.xlsx", col_names = FALSE)
 
-# alterando o nome das colunas
 colnames(df) <- c(
   "Status_conta", "Meses_existencia", "Historico_credito", "Proposito",
   "Valor_credito", "Saldo_poupanca", "Tempo_emprego", "Taxa_parcela_renda",
@@ -40,6 +50,12 @@ df$Dependentes <- as.numeric(df$Dependentes)
 
 kable(head(df, 10)) # imprimi a tabela de forma simples e formatada
 
+```
+
+Abaixo está algumas informações sobre dados faltantes e o classe de cada variável:
+
+```{R, echo=FALSE, message=FALSE, warning=FALSE}
+
 # Tratamento
 print("Matriz mostrando todos os dados faltantes")
 print(colSums(is.na(df))) # Verifica dados faltantes
@@ -50,122 +66,41 @@ par(mfrow = c(1, 4))
 var_numericas <- c("Meses_existencia", "Valor_credito", "Taxa_parcela_renda",
                    "Residencia_atual", "Idade", "Credito_existente", "Dependentes")
 
-
-for (var in var_numericas) {
-  boxplot(df[[var]], main = paste("Outliers em ", var), ylab = var)
-}
-#par(mfrow = c(1, 1))
-
 ```
 
+### 1.2 Colunas do banco
 
-### 1.2 Colunas do banco 
-* Status_conta – Status da conta corrente, tipados como:
-    + A11 - < 0 DM
-    + A12 - <= ... < 200 DM
-    + A13 - >= 200 DM
-    + A14 - Sem conta  
-    
-* Meses_existencia – Duração do crédito em meses  
-    
-* Historico_credito – Histórico de crédito, tipados como:
-    + A30 - Nenhum crédito anterior
-    + A31 - Todos os créditos pagos
-    + A32 - Crédito existente pago em dia
-    + A33 - Atraso no pagamento no passado
-    + A34 - Conta crítica, crédito em outros bancos  
-  
-* Proposito – Motivo do crédito, tipados como:
-    + A40 - Carro
-    + A41 - Carro usado
-    + A42 - Mobília/equipamento
-    + A43 - Rádio/tv
-    + A44 - Eletrodomestico
-    + A45 - Reparos
-    + A46 - Educação
-    + A47 - Férias
-    + A48 - Requalificação
-    + A49 - Negócios
-    + A410 - Outros  
-  
-* Valor_credito – Valor do crédito solicitado  
-  
-* Saldo_poupanca – Saldo de poupança, tipados como:
-    + A61 - < 100 DM
-    + A62 - 100 <= ... < 500 DM
-    + A63 - 500 <= ... < 1000 DM
-    + A64 - >= 1000 DM
-    + A65 - Desconhecido  
-  
-* Tempo_emprego – Tempo de emprego atual, tipados como:
-    + A71 - Desempregado
-    + A72 - < 1 ano
-    + A73 - <= 1 ... < 4 anos
-    + A74 - <= 4 ... < 7 anos
-    + A75 - >= 7 anos  
-  
-* Taxa_parcela_renda – Taxa da parcela do crédito em relação à renda (%)  
-  
-* Status_pessoal_sexo – Estado civil e sexo, tipados como:
-    + A91 - homem divorciado
-    + A92 - mulher divorciada
-    + A93 - homem solteiro
-    + A94 - homem casado/viuvo
-    + A95 - mulher solteira  
-  
-* Fiador – Existência de fiador ou garantias, tipados como:
-    + A101 - Nenhum
-    + A102 - Co-assistente
-    + A103 - Fiador  
-  
-* Residencia_atual – Tempo de residência atual
+Variáveis Nnúmerias Chave (Usada em gráfcos e correlações);
 
-* Bens – Tipo de bens/garantias, tipados como:
-    + A121 - Imóvel
-    + A122 - Se não A121, poupança, seguro
-    + A123 - Se não 121/122, carro ou outro
-    + A124 - Desconhecido  
-  
-* Idade – Idade do cliente  
-  
-* Outros planos de parcelamento, tipados como:
-    + A141 - Banco
-    + A142 - Lojas
-    + A143 - Nenhum  
-  
-* Moradia, tipados como:
-    + A151 - Aluguel
-    + A152 - Própria
-    + A153 - Gratuita  
-  
-* Credito_existente – Quantidade de créditos existentes   
-  
-* Emprego – Tipo de emprego ou função, tipados como:
-    + A171 - Não qualificado - não residente
-    + A172 - Não qualificado - residente
-    + A173 - Empregado qualificado/oficial
-    + A174 - Gerente/autônomo/empregado/altamente qualifacdo/oficial  
-  
-* Dependentes – Número de dependentes  
-  
-* Telefone – Possui telefone?, tipados como:
-    + A191 - Sim, no nome doutro
-    + A192 - Sim, no nome do cliente  
-  
-* Trabalhador_estrangeiro – É trabalhador estrangeiro?, tipados como:
-    + A201 - Sim
-    + A202 - Não  
-  
-* Classe – Qualidade do crédito - Matriz de custo, tipados como:
-    + 1 = Bom
-    + 2 = Ruim
-      
-      
-## 2. Operações com uma coluna numérica  
-  
+| Variável         | Descrição                        |
+|------------------|----------------------------------|
+| Valor_credito    | Valor do crédito solicitado (DM) |
+| Meses_existencia | Duração do crédito em meses      |
+| Idade            | Idade do cliente                 |
+| Residencia_atual | Tempo na residência (meses)      |
+
+Variáveis Categóricas Principais (Usadas em gráficos bivariados);
+
+| Variável       | Descrição                                                 |
+|--------------------------|----------------------------------------------|
+| Saldo_poupanca | \<100 DM, 100-500 DM, 500-1000 DM, ≥1000 DM, Desconhecido |
+| Tempo_emprego  | Desempregado, \<1 ano, 1-4 anos, 4-7 anos, ≥7 anos        |
+| Classe         | 1 = Bom, 2 = Ruim                                         |
+
+Variáveis Secundárias Referenciadas:
+
+| Variável           | Usado em                    |
+|--------------------|-----------------------------|
+| Status_conta       | Contexto para interpretação |
+| Historico_credito  | Discussão de riscos         |
+| Taxa_parcela_renda | Matriz de correlação        |
+
+## 2. Operações com uma coluna numérica
+
 Cálculo do valor mínimo e o máximo valor, média, mediana, desvio padrão, os quartis, construição do histograma e do boxplot. Coluna usada: "Valor_Credito".
-  
-<!-- criando uma chunk -->  
+
+<!-- criando uma chunk -->
+
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # imprimindo os resultados numa tabela
 resumo <- data.frame(
@@ -199,20 +134,21 @@ boxplot(df$Valor_credito,
         ylab = "Valores (DM)", 
         col = "lightgreen")
 ```
-  
-* Interpretações acerca dos fatos:
-    + A média é maior que a mediana, ou seja, há uma concentração em valores mais baixos;
-    + DP é elevado o que pode indicar uma disperção grande nos dados;
-    + Histograma: valores concentrados na esquerda e uma cauda alongada para direita, uma frequência máxima em intervalos menores o cabe com a mediana e com valores acima de 10000 bem raros;
-    + Boxplot: Temos outliers bem visíveis, com pontos acima de 10000 DM e cerca de 75% dos dados estão abaico de 3972.25 DM;
-    + A maioria dos crédicos é pequena com pouco valores altos;
-    + Alguns fatores: imprevistos, renda limitada, sem reservas de dinheiro, etc.  
-  
+
+-   Interpretações acerca dos fatos:
+    -   A média é maior que a mediana, ou seja, há uma concentração em valores mais baixos;
+    -   DP é elevado o que pode indicar uma disperção grande nos dados;
+    -   Histograma: valores concentrados na esquerda e uma cauda alongada para direita, uma frequência máxima em intervalos menores o cabe com a mediana e com valores acima de 10000 bem raros;
+    -   Boxplot: Temos outliers bem visíveis, com pontos acima de 10000 DM e cerca de 75% dos dados estão abaico de 3972.25 DM;
+    -   A maioria dos crédicos é pequena com pouco valores altos;
+    -   Alguns fatores: imprevistos, renda limitada, sem reservas de dinheiro, etc.
+
 ## 3. Análise bivariada com duas colunas categóricas
 
-Colunas categóricas usadas: "Saldo_poupanca" e "Tempo_emprego".  
-  
-<!-- criando uma chunk -->  
+Colunas categóricas usadas: "Saldo_poupanca" e "Tempo_emprego".
+
+<!-- criando uma chunk -->
+
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Analise bivariada:  "Saldo_poupanca" e "Tempo_emprego"
 #str(df[c("Saldo_poupanca", "Tempo_emprego")])
@@ -234,24 +170,22 @@ ggplot(as.data.frame(tbCont),
        title = "Relação Saldo Poupança x Tempo Emprego") +
   theme_minimal()
 
-
- 
 ```
-  
-* Interpretações acerca dos fatos:
-    + A combinação mais frequente é A61 com A73 (<100 DM e 1~4 anos de emprego);
-    + A combinação menos frequente é A64 com A71 (>= 1000 DM e desempregado);
-    + Tem-se evidêcinas de associação entre saldo em poupança e tempo de emprego já que no teste de Qui-quadrado o p-valor deu 5%;
-    + As pessoas que tem menos saldo estao mais distribuídas entre os tempos de emprego
-    + AS pessoas que tem DM >= 1000 estão amior associadas com o tempo de emprego maior (algo que eu estava buscando);
-    + Grande parte dos desempregados tem saldo < 100 DM (algo relativamento lógico)
-Dados que são desconhecidos estão em tempo de emprego mais longos (talvez seja uma forma de segurança?).  
-  
 
-## 4. Boxplot de uma coluna numérica e de uma coluna nominal   
+-   Interpretações acerca dos fatos:
+    -   A combinação mais frequente é A61 com A73 (\<100 DM e 1\~4 anos de emprego);
+    -   A combinação menos frequente é A64 com A71 (\>= 1000 DM e desempregado);
+    -   Tem-se evidêcinas de associação entre saldo em poupança e tempo de emprego já que no teste de Qui-quadrado o p-valor deu 5%;
+    -   As pessoas que tem menos saldo estao mais distribuídas entre os tempos de emprego
+    -   AS pessoas que tem DM \>= 1000 estão amior associadas com o tempo de emprego maior (algo que eu estava buscando);
+    -   Grande parte dos desempregados tem saldo \< 100 DM (algo relativamento lógico) Dados que são desconhecidos estão em tempo de emprego mais longos (talvez seja uma forma de segurança?).
+
+## 4. Boxplot de uma coluna numérica e de uma coluna nominal
+
 Colunas usadas: "Idade" e "saldo_poupanca".
-  
-<!-- criando uma chunk -->  
+
+<!-- criando uma chunk -->
+
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Analise em boxplot das variáveis Idade e saldo_poupanca
 df$Saldo_poupanca <- factor(
@@ -271,15 +205,16 @@ ggplot(df, aes(x = Saldo_poupanca, y = Idade, fill = Saldo_poupanca)) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
-  
-* Interpretações acerca dos fatos:  
-    + De acordo com o gráfico os dados representam um acumulo econômico ao longo dos anos o que já era esperado;
-    + Pessoas mais jovens tem menos dinheiro guardado e pessoas mais velhas tem mais;
-    + Como a distribição esta parecida com  a faixa média isso pode indicar casos médios não declarados.
-  
-## 5. Matriz de correlação das variáveis numéricas  
-  
-<!-- criando uma chunk -->  
+
+-   Interpretações acerca dos fatos:
+    -   De acordo com o gráfico os dados representam um acumulo econômico ao longo dos anos o que já era esperado;
+    -   Pessoas mais jovens tem menos dinheiro guardado e pessoas mais velhas tem mais;
+    -   Como a distribição esta parecida com a faixa média isso pode indicar casos médios não declarados.
+
+## 5. Matriz de correlação das variáveis numéricas
+
+<!-- criando uma chunk -->
+
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
 var_cor <- df[, c("Meses_existencia", "Valor_credito", "Taxa_parcela_renda",
                         "Residencia_atual", "Idade", "Credito_existente", "Dependentes")]
@@ -299,32 +234,44 @@ corrplot(mat,
          title = "Matriz de Correlação",
          cl.ratio  = 0.2)
 ```
-    
-* Algumas correlações fortes poderam ser vistas, como:    
-    + Meses_existencia x Valor_credito;
-    + Meses_ecistencia x Residencia_atual;
-    + Vale destacar também uma correlacão moderada entre Meses_existencia e Taxa_parcela_renda;
-    + Nota-se que Meses_existencia é a variável que mais correlaciona com outras e Dependentes não mostrou uma correlação boa com nenhuma variável.
 
+-   Algumas correlações fortes poderam ser vistas, como:
+    -   Meses_existencia x Valor_credito;
+    -   Meses_ecistencia x Residencia_atual;
+    -   Vale destacar também uma correlacão moderada entre Meses_existencia e Taxa_parcela_renda;
+    -   Nota-se que Meses_existencia é a variável que mais correlaciona com outras e Dependentes não mostrou uma correlação boa com nenhuma variável.
 
-## 6. Análise bivariada com duas colunas numéricas  
+## 6. Análise bivariada com duas colunas numéricas
+
 Gráfico de dispersão, linha de tendência dos dados, correlação entre as duas variáveis, equação da reta ajustada e o coeficiente de determinação. Colunas numéricas usadas: "Meses_existencia" e "Residencia_atual".
 
-<!-- criando uma chunk -->  
+<!-- criando uma chunk -->
+
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Analise bivariada:  "Meses_existencia" e "Residencia_atual" disperssão com linha de tendência
 ggplot(df, aes(x = Meses_existencia, y = Residencia_atual)) +
   geom_point(alpha = 0.6, color = "blue") +  #scatterplot
   geom_smooth(method = "lm", se = TRUE, color = "red", fill = "pink") +  #regressão
-  labs(title = "Relação entre Meses de Existência e Tempo na Residência Atual",
-       x = "Meses de Existência",
-       y = "Tempo na Residência Atual (mês)",
-       caption = paste("Correlação =", round(cor(df$Meses_existencia, df$Residencia_atual), 2))) +
+  labs(title = "Relacao entre Meses de Existencia e Tempo na Residencia Atual",
+       x = "Meses de Existencia",
+       y = "Tempo na Residencia Atual (mes)",
+       caption = paste("Correlacaoo =", round(cor(df$Meses_existencia, df$Residencia_atual), 2))) +
   theme_minimal()
 
 modelo <- lm(Residencia_atual ~ Meses_existencia, data = df)
 summary(modelo) # Regressão linear
 
+```
+
+### 6.1 Interpretação:
+
+Há uma correlacão bem baixa, e nenhuma relação linear entre elas. Os pontos estão bem dispersos sem uma formação de padrão bem visivel, a linha de tendência está quase deitada com o eixo x, sem relações sobre a regressão linear. Quando Meses_existencia = 0, tempo na residência é 2.78. Pra cada mês a mais o tempo aumenta 0.0003 com p-valor \> 0.05, mostra que é significativo. Então, tanto a regressão quanto a correlação mostra uma associação fraca.
+
+## 7. Perguntas sobre estatística bivariada considerando a base de dados
+
+-   1ª pergunta: Será que com mais tempo de existência, maior será o crédito recebido?
+
+```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Correlação entre Meses_existencia x Valor_credito
 ggplot(df, aes(x=Meses_existencia, y=Valor_credito)) +
   geom_hex(bins=30) +
@@ -333,7 +280,15 @@ ggplot(df, aes(x=Meses_existencia, y=Valor_credito)) +
   labs(title="Relação entre Tempo de Histórico e Valor de Crédito",
        x="Meses de Existencia",
        y="Valor do credito")
+```
 
+```         
+-   O gráfico mostrou uma concentração de valores altos para o histórico mais longo. Então, confirmamos que há relação de valor e tempo, ou seja os institutos tedem a dar mais crédito para pessoas com histórico mais longo.\
+```
+
+-   2ª pergunta: Pessoas que tem um tempo elevado de emprego possuem um saldo na poupança mais alto?
+
+```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Gráfico de barra sobre Saldo em poupança x tempo de emprego
 rotulo_temp <- c(
   "A71" = "A71 - desempregado",
@@ -353,6 +308,15 @@ ggplot(as.data.frame(tbCont), aes(x=Var1, y=Freq, fill=Var2)) +
       y="Frequencia") +
   theme_minimal()
 
+```
+
+```         
+-   A combinação mais frequente foi a A61 com A73 e uma bem rara foi A64 com A71. Tem-se uma associação significativa, com um padrão de maior saldo com tempo maior de trabalho. Já os desempregados com um saldo alto pode ser algo como aposentados.\
+```
+
+-   3ª pergunta: A faixe etária influencia o valor do crédito concedido?
+
+```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Boxplot faixa etária x valor do crédito
 df$Faixa_etaria <- cut(df$Idade, breaks=c(20,30,40,50,60,70))
 
@@ -362,18 +326,8 @@ ggplot(df, aes(x=Faixa_etaria, y=Valor_credito)) +
   labs(title="Distribuição do valor crédito por Faixa de idade",
        x="Faixa etária",
        y="Valor do crédito (DM)")
-
 ```
-  
-### 6.1 Interpretação:  
-Há uma correlacão bem baixa, e nenhuma relação linear entre elas. Os pontos estão bem dispersos sem uma formação de padrão bem visivel, a linha de tendência está quase deitada com o eixo x, sem relações sobre a regressão linear. Quando Meses_existencia = 0, tempo na residência é 2.78. Pra cada mês a mais o tempo aumenta 0.0003 com p-valor > 0.05, mostra que é significativo. Então, tanto a regressão quanto a correlação mostra uma associação fraca.  
-  
-## 7. Perguntas sobre estatística bivariada considerando a base de dados  
 
-* 1ª pergunta: Será que com mais tempo de existência, maior será o crédito recebido?  
-    + O gráfico mostrou uma concentração de valores altos para o histórico mais longo. Então, confirmamos que há relação de valor e tempo, ou seja os institutos tedem a dar mais crédito para pessoas com histórico mais longo.  
-* 2ª pergunta: Pessoas que tem um tempo elevado de emprego possuem um saldo na poupança mais alto?  
-    + A combinação mais frequente foi a A61 com A73 e uma bem rara foi A64 com A71. Tem-se uma associação significativa, com um padrão de maior saldo com tempo maior de trabalho. Já os desempregados com um saldo alto pode ser algo como aposentados.    
-* 3ª pergunta: A faixe etária influencia o valor do crédito concedido?   
-    + Como não há valores faltantes, no boxplot o NA em Idade sugere idades maiores que 70 anos. Nota-se que em tados as faixas de diade a média supera a mediana, isso pode indicar que, mesmo a maioria recendo valores próximos à mediana, alguns emprestimos altos sobem a média.  
-  
+```         
+-   Como não há valores faltantes, no boxplot o NA em Idade sugere idades maiores que 70 anos. Nota-se que em tados as faixas de diade a média supera a mediana, isso pode indicar que, mesmo a maioria recendo valores próximos à mediana, alguns emprestimos altos sobem a média.
+```

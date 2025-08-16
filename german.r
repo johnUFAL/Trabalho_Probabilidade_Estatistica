@@ -137,10 +137,10 @@ corrplot(mat,
 ggplot(df, aes(x = Meses_existencia, y = Residencia_atual)) +
   geom_point(alpha = 0.6, color = "blue") +  #scatterplot
   geom_smooth(method = "lm", se = TRUE, color = "red", fill = "pink") +  #regressão
-  labs(title = "Relação entre Meses de Existência e Tempo na Residência Atual",
-       x = "Meses de Existência",
-       y = "Tempo na Residência Atual (mês)",
-       caption = paste("Correlação =", round(cor(df$Meses_existencia, df$Residencia_atual), 2))) +
+  labs(title = "Relacao entre Meses de Existencia e Tempo na Residencia Atual",
+       x = "Meses de Existencia",
+       y = "Tempo na Residencia Atual (mes)",
+       caption = paste("Correlacaoo =", round(cor(df$Meses_existencia, df$Residencia_atual), 2))) +
   theme_minimal()
 
 modelo <- lm(Residencia_atual ~ Meses_existencia, data = df)
