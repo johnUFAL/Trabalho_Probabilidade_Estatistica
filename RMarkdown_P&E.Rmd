@@ -162,12 +162,22 @@ prop.table(tbCont, margin = 2)
 tst <- chisq.test(tbCont) # Associação significativa
 #print(tst) # Associação sig == p < 0.05
 
-ggplot(as.data.frame(tbCont), 
-       aes(x = Var1, y = Freq, fill = Var2)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(x = "Saldo Poupança", y = "Frequência", 
-       fill = "Tempo Emprego", 
-       title = "Relação Saldo Poupança x Tempo Emprego") +
+rotulo_temp <- c(
+  "A71" = "A71 - desempregado",
+  "A72" = "A72 - < 1 ano",
+  "A73" = "A73 - 1 ≤ anos < 4",
+  "A74" = "A74 - 4 ≤ anos < 7",
+  "A75" = "A75 - ≥ 7 anos"
+)
+
+ggplot(as.data.frame(tbCont), aes(x=Var1, y=Freq, fill=Var2)) +
+  geom_bar(stat="identity", position="dodge") +
+  scale_fill_discrete(
+    name = "Tempo emprego",
+    labels = rotulo_temp) +
+  labs(title="Saldo na conta por Tempo empregado",
+      x="Saldo (DM)",
+      y="Frequencia") +
   theme_minimal()
 
 ```
@@ -198,12 +208,12 @@ df$Saldo_poupanca <- factor(
 ggplot(df, aes(x = Saldo_poupanca, y = Idade, fill = Saldo_poupanca)) +
   geom_boxplot() + labs(title = "Idade por Saldo em poupança",
                         x = "Saldo em Poupança",
-                        y = "Idade (anos)",
+                        y = "Idade (anos",
                         fill = "Saldo") +
   scale_fill_brewer(palette = "Pastel1") +
   theme_minimal() +
   theme(legend.position = "none",
-        axis.text.x = element_text(angle = 45, hjust = 1)) 
+        axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 -   Interpretações acerca dos fatos:
@@ -286,32 +296,31 @@ ggplot(df, aes(x=Meses_existencia, y=Valor_credito)) +
 -   O gráfico mostrou uma concentração de valores altos para o histórico mais longo. Então, confirmamos que há relação de valor e tempo, ou seja os institutos tedem a dar mais crédito para pessoas com histórico mais longo.\
 ```
 
--   2ª pergunta: Pessoas que tem um tempo elevado de emprego possuem um saldo na poupança mais alto?
+-   2ª pergunta: Clientes com maior saldo em poupança tendem a pertencer a classes de menor risco de crédito?
 
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
-# Gráfico de barra sobre Saldo em poupança x tempo de emprego
-rotulo_temp <- c(
-  "A71" = "A71 - desempregado",
-  "A72" = "A72 - < 1 ano",
-  "A73" = "A73 - 1 ≤ anos < 4",
-  "A74" = "A74 - 4 ≤ anos < 7",
-  "A75" = "A75 - ≥ 7 anos"
-)
+# Gráfico de barra sobre Saldo em poupança x classe
+df$Classe <- factor(df$Classe, levels = c(1, 2), labels = c("Bom", "Mau"))
+df$Saldo_poupanca <- factor(df$Saldo_poupanca, 
+                            levels = c("A61", "A62", "A63", "A64", "A65"),
+                            labels = c("<100 DM", "100-500 DM", "500-1000 DM", "≥1000 DM", "Desconhecido"))
 
-ggplot(as.data.frame(tbCont), aes(x=Var1, y=Freq, fill=Var2)) +
-  geom_bar(stat="identity", position="dodge") +
-  scale_fill_discrete(
-    name = "Tempo emprego",
-    labels = rotulo_temp) +
-  labs(title="Saldo na conta por Tempo empregado",
-      x="Saldo (DM)",
-      y="Frequencia") +
-  theme_minimal()
+ggplot(df, aes(x = Saldo_poupanca, fill = Classe)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Distribuição de Risco de Crédito por Saldo em Poupança",
+       x = "Saldo em Poupança",
+       y = "Proporção",
+       fill = "Classe de Risco") +
+  scale_fill_manual(values = c("Bom" = "#1b9e77", "Mau" = "#d95f02")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 ```
 
 ```         
--   A combinação mais frequente foi a A61 com A73 e uma bem rara foi A64 com A71. Tem-se uma associação significativa, com um padrão de maior saldo com tempo maior de trabalho. Já os desempregados com um saldo alto pode ser algo como aposentados.\
+-  Relação inversa evidente: Quanto maior o saldo em poupança, maior a proporção de clientes "Bom" pagador. Cliente com ≥1000 DM: 80-90% são bons pagadores (barra verde dominante). Cliente com <100 DM: 60-70% são maus pagadores (barra laranja dominante).\
 ```
 
 -   3ª pergunta: A faixe etária influencia o valor do crédito concedido?

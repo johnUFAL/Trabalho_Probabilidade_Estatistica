@@ -87,14 +87,23 @@ prop.table(tbCont, margin = 2)
 tst <- chisq.test(tbCont) # Associação significativa
 print(tst) # Associação sig == p < 0.05
 
-ggplot(as.data.frame(tbCont), 
-       aes(x = Var1, y = Freq, fill = Var2)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(x = "Saldo Poupança", y = "Frequência", 
-       fill = "Tempo Emprego", 
-       title = "Relação Saldo Poupança x Tempo Emprego") +
-  theme_minimal()
+rotulo_temp <- c(
+  "A71" = "A71 - desempregado",
+  "A72" = "A72 - < 1 ano",
+  "A73" = "A73 - 1 ≤ anos < 4",
+  "A74" = "A74 - 4 ≤ anos < 7",
+  "A75" = "A75 - ≥ 7 anos"
+)
 
+ggplot(as.data.frame(tbCont), aes(x=Var1, y=Freq, fill=Var2)) +
+  geom_bar(stat="identity", position="dodge") +
+  scale_fill_discrete(
+    name = "Tempo emprego",
+    labels = rotulo_temp) +
+  labs(title="Saldo na conta por Tempo empregado",
+       x="Saldo (DM)",
+       y="Frequencia") +
+  theme_minimal()
 
 # Analise em boxplot das variáveis Idade e saldo_poupanca
 df$Saldo_poupanca <- factor(
@@ -155,24 +164,22 @@ ggplot(df, aes(x=Meses_existencia, y=Valor_credito)) +
        x="Meses de Existencia",
        y="Valor do credito")
 
-# Gráfico de barra sobre Saldo em poupança x tempo de emprego
-rotulo_temp <- c(
-  "A71" = "A71 - desempregado",
-  "A72" = "A72 - < 1 ano",
-  "A73" = "A73 - 1 ≤ anos < 4",
-  "A74" = "A74 - 4 ≤ anos < 7",
-  "A75" = "A75 - ≥ 7 anos"
-)
+# Gráfico de barra sobre Saldo em poupança x classe
+df$Classe <- factor(df$Classe, levels = c(1, 2), labels = c("Bom", "Mau"))
+df$Saldo_poupanca <- factor(df$Saldo_poupanca, 
+                            levels = c("A61", "A62", "A63", "A64", "A65"),
+                            labels = c("<100 DM", "100-500 DM", "500-1000 DM", "≥1000 DM", "Desconhecido"))
 
-ggplot(as.data.frame(tbCont), aes(x=Var1, y=Freq, fill=Var2)) +
-  geom_bar(stat="identity", position="dodge") +
-  scale_fill_discrete(
-    name = "Tempo emprego",
-    labels = rotulo_temp) +
-  labs(title="Saldo na conta por Tempo empregado",
-      x="Saldo (DM)",
-      y="Frequencia") +
-  theme_minimal()
+ggplot(df, aes(x = Saldo_poupanca, fill = Classe)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Distribuição de Risco de Crédito por Saldo em Poupança",
+       x = "Saldo em Poupança",
+       y = "Proporção",
+       fill = "Classe de Risco") +
+  scale_fill_manual(values = c("Bom" = "#1b9e77", "Mau" = "#d95f02")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # Boxplot faixa etária x valor do crédito
 df$Faixa_etaria <- cut(df$Idade, breaks=c(20,30,40,50,60,70))
