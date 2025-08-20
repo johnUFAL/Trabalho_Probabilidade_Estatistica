@@ -1,11 +1,13 @@
 ---
-output: 
+output:
   html_document:
     theme: flatly
     highlight: tango
     toc: true
     toc_float: true
     code_folding: show
+  pdf_document:
+    toc: true
 ---
 
 # *Atividade 1 – Probabilidade e Estatistica*
@@ -39,6 +41,10 @@ colnames(df) <- c(
   "Emprego", "Dependentes", "Telefone", "Trabalhador_estrangeiro", "Classe"
 )
 
+# Importante para alguns gráficos
+df$Classe[df$Classe == "1.1"] <- "1"
+df$Saldo_poupanca <- as.character(df$Saldo_poupanca)
+
 # Convertentdo valores para numericos
 df$Meses_existencia <- as.numeric(df$Meses_existencia)
 df$Valor_credito <- as.numeric(df$Valor_credito)
@@ -52,7 +58,7 @@ kable(head(df, 10)) # imprimi a tabela de forma simples e formatada
 
 ```
 
-Abaixo está algumas informações sobre dados faltantes e o classe de cada variável:
+Abaixo está algumas informações sobre dados faltantes , a classe de cada variável e outliers:
 
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -65,6 +71,15 @@ print(sapply(df, class))
 par(mfrow = c(1, 4))
 var_numericas <- c("Meses_existencia", "Valor_credito", "Taxa_parcela_renda",
                    "Residencia_atual", "Idade", "Credito_existente", "Dependentes")
+
+par(mfrow = c(2, 4))
+var_numericas <- c("Meses_existencia", "Valor_credito", "Taxa_parcela_renda",
+                   "Residencia_atual", "Idade", "Credito_existente", "Dependentes")
+
+for (var in var_numericas) {
+  boxplot(df[[var]], main = paste("Outliers em", var), ylab = var)
+}
+par(mfrow = c(1, 1))
 
 ```
 
@@ -301,9 +316,6 @@ ggplot(df, aes(x=Meses_existencia, y=Valor_credito)) +
 ```{R, echo=FALSE, message=FALSE, warning=FALSE}
 # Gráfico de barra sobre Saldo em poupança x classe
 df$Classe <- factor(df$Classe, levels = c(1, 2), labels = c("Bom", "Mau"))
-df$Saldo_poupanca <- factor(df$Saldo_poupanca, 
-                            levels = c("A61", "A62", "A63", "A64", "A65"),
-                            labels = c("<100 DM", "100-500 DM", "500-1000 DM", "≥1000 DM", "Desconhecido"))
 
 ggplot(df, aes(x = Saldo_poupanca, fill = Classe)) +
   geom_bar(position = "fill") +

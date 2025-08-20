@@ -22,6 +22,11 @@ colnames(df) <- c(
   "Emprego", "Dependentes", "Telefone", "Trabalhador_estrangeiro", "Classe"
 )
 
+
+# Importante para alguns gráficos
+df$Classe[df$Classe == "1.1"] <- "1"
+df$Saldo_poupanca <- as.character(df$Saldo_poupanca)
+
 # Convertentdo valores para numericos
 df$Meses_existencia <- as.numeric(df$Meses_existencia)
 df$Valor_credito <- as.numeric(df$Valor_credito)
@@ -165,10 +170,9 @@ ggplot(df, aes(x=Meses_existencia, y=Valor_credito)) +
        y="Valor do credito")
 
 # Gráfico de barra sobre Saldo em poupança x classe
-df$Classe <- factor(df$Classe, levels = c(1, 2), labels = c("Bom", "Mau"))
-df$Saldo_poupanca <- factor(df$Saldo_poupanca, 
-                            levels = c("A61", "A62", "A63", "A64", "A65"),
-                            labels = c("<100 DM", "100-500 DM", "500-1000 DM", "≥1000 DM", "Desconhecido"))
+df$Classe <- factor(df$Classe, 
+                    levels = c("1","2"), 
+                    labels = c("Bom", "Mau"))
 
 ggplot(df, aes(x = Saldo_poupanca, fill = Classe)) +
   geom_bar(position = "fill") +
